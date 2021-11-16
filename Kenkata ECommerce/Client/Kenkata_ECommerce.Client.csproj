@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\images\**" />
+    <Content Remove="wwwroot\images\**" />
+    <EmbeddedResource Remove="wwwroot\images\**" />
+    <None Remove="wwwroot\images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\Products.razor.css" />
+    <None Remove="Pages\ShoppingCart.razor.css" />
+    <None Remove="Shared\Carousel.razor.css" />
+    <None Remove="Shared\CarouselHeader.razor.css" />
+    <None Remove="Shared\MainLayout.razor.css~RFbce193.TMP" />
+    <None Remove="Shared\ProductList_test.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\Products.razor.css" />
+    <Content Include="Pages\ShoppingCart.razor.css" />
+    <Content Include="Shared\Carousel.razor.css" />
+    <Content Include="Shared\CarouselHeader.razor.css" />
+    <Content Include="Shared\ProductList_test.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.11" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Kenkata_ECommerce.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

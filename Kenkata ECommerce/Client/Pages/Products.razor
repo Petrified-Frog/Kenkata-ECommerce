@@ -1,0 +1,383 @@
+﻿@page "/products/{id}"
+@using Kenkata_ECommerce.Shared.Models
+
+<div class="container">
+    <div class="cart-product-container">
+        <div class="cart-image-holder-big">
+            @if (oneProduct.images != null)
+            {
+                <img class="cart-image-big" src="@imageSrc" alt="@oneProduct.name" />
+            }
+        </div>
+        <div class="cart-image-holder-small">
+            <div class="cart-image-small">
+                @if (oneProduct.images != null)
+                {
+                    <img class="cart-image-small-img" src="@image[0]" alt="@oneProduct.name" @onclick="() => ChangePicture(image[0])" />
+                }
+            </div>
+            <div class="cart-image-small">
+                @if (oneProduct.images != null)
+                {
+                    <img class="cart-image-small-img" src="@image[1]" alt="@oneProduct.name" @onclick="() => ChangePicture(image[1])" />
+                }
+            </div>
+            <div class="cart-image-small">
+                @if (oneProduct.images != null)
+                {
+                    <img class="cart-image-small-img" src="@image[2]" alt="@oneProduct.name" @onclick="() => ChangePicture(image[2])" />
+                }
+            </div>
+            <div class="cart-image-small">
+                @if (oneProduct.images != null)
+                {
+                    <img class="cart-image-small-img" src="@image[3]" alt="@oneProduct.name" @onclick="() => ChangePicture(image[3])" />
+                }
+            </div>
+        </div>
+        <div class="cart-shopping-holder">
+            <p class="cart-text-title">@oneProduct.name</p>
+            <div class="cart-text-description">
+                <text class=""><tspan>@oneProduct.description</tspan></text>
+            </div>
+            <div class="cart-price-container">
+                <div class="col">
+                    <h4 class="price">
+                        $@oneProduct.price
+                    </h4>
+                </div>
+                <div class="col">
+                    <h4 class="old-price">
+                        $@oneProduct.price
+                    </h4>
+                </div>
+                <div class="col">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21.774" height="21.5" viewBox="0 0 21.774 21.5">
+                        <g id="In_stock" data-name="In stock" transform="translate(-52.759 -470.866)">
+                            <rect id="Rectangle_846" data-name="Rectangle 846" width="4.083" height="7.008" rx="2" transform="translate(53.783 484.609)" fill="#20d3c2" stroke="#64cb83" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                            <rect id="Rectangle_847" data-name="Rectangle 847" width="4.083" height="11.357" rx="2" transform="translate(61.741 480.259)" fill="#20d3c2" stroke="#64cb83" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                            <rect id="Rectangle_848" data-name="Rectangle 848" width="4.083" height="20" rx="2" transform="translate(69.7 471.616)" fill="#20d3c2" stroke="#64cb83" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                            <line id="Line_141" data-name="Line 141" y1="6.302" x2="10.985" transform="translate(53.783 473.387)" fill="none" stroke="#64cb83" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                            <path id="Path_582" data-name="Path 582" d="M65.764,473.148l3,.749-.749,3" transform="translate(-3.994 -0.511)" fill="#20d3c2" stroke="#64cb83" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                        </g>
+                    </svg>
+                    <span class="instock">In stock</span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-start">
+                <div class="btn-holder d-flex justify-content-between">
+                    <div class="counter d-flex align-items-start">
+                        <button class="btn-left" @onclick="() => SetQuantity(false)">-</button>
+                        <div class="item-counter">
+                            <label>@cartItem.Quantity</label>
+                        </div>
+                        <button class="btn-right" @onclick="() => SetQuantity(true)">+</button>
+                    </div>
+                    <div>
+                        <button class="btn-add" @onclick="AddToCart">
+                            <i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;&nbsp;Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="btn-holder-2 d-flex justify-content-between">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                        <g id="Color_icon" data-name="Color icon" transform="translate(-1251 -652)">
+                            <g id="Ellipse_59" data-name="Ellipse 59" transform="translate(1251 652)" fill="none" stroke="#aaa" stroke-width="1">
+                                <circle cx="18" cy="18" r="18" stroke="none" />
+                                <circle cx="18" cy="18" r="17.5" fill="none" />
+                            </g>
+                            <g id="Group_667" data-name="Group 667" transform="translate(0 -20)">
+                                <circle id="Ellipse_68" data-name="Ellipse 68" cx="5" cy="5" r="5" transform="translate(1258 679)" fill="#64cb83" />
+                                <circle id="Ellipse_71" data-name="Ellipse 71" cx="5" cy="5" r="5" transform="translate(1258 691)" fill="#00dcff" />
+                                <circle id="Ellipse_69" data-name="Ellipse 69" cx="5" cy="5" r="5" transform="translate(1270 679)" fill="#fe4545" />
+                                <circle id="Ellipse_70" data-name="Ellipse 70" cx="5" cy="5" r="5" transform="translate(1270 691)" />
+                            </g>
+                        </g>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                        <g id="Compare_icon" data-name="Compare icon" transform="translate(-1302 -652)">
+                            <g id="Ellipse_67" data-name="Ellipse 67" transform="translate(1302 652)" fill="none" stroke="#aaa" stroke-width="1">
+                                <circle cx="18" cy="18" r="18" stroke="none" />
+                                <circle cx="18" cy="18" r="17.5" fill="none" />
+                            </g>
+                            <g id="Group_664" data-name="Group 664" transform="translate(1064.065 355.988)">
+                                <g id="Group_8" data-name="Group 8" transform="translate(246.935 306.012)">
+                                    <path id="Path_19" data-name="Path 19" d="M264.935,309.9h-3.62a2.207,2.207,0,0,0-1.825.964l-5.727,8.4a2.206,2.206,0,0,1-1.824.964h-5" transform="translate(-246.935 -307.569)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                    <path id="Path_20" data-name="Path 20" d="M273.043,306.012l2.335,2.335-2.335,2.335" transform="translate(-257.378 -306.012)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                </g>
+                                <g id="Group_9" data-name="Group 9" transform="translate(246.935 309.482)">
+                                    <path id="Path_21" data-name="Path 21" d="M264.935,322.126h-3.62a2.209,2.209,0,0,1-1.825-.964l-5.727-8.4a2.208,2.208,0,0,0-1.824-.964h-5" transform="translate(-246.935 -311.795)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                    <path id="Path_22" data-name="Path 22" d="M273.043,325.121l2.335,2.335-2.335,2.335" transform="translate(-257.378 -317.126)" fill="none" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                                </g>
+                            </g>
+                        </g>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                        <g id="Heart_icon" data-name="Heart icon" transform="translate(-1353 -652)">
+                            <g id="Ellipse_66" data-name="Ellipse 66" transform="translate(1353 652)" fill="rgba(0,0,0,0)" stroke="#aaa" stroke-width="1">
+                                <circle cx="18" cy="18" r="18" stroke="none" />
+                                <circle cx="18" cy="18" r="17.5" fill="none" />
+                            </g>
+                            <path id="Path_315" data-name="Path 315" d="M294.565,308.957a4.5,4.5,0,0,1,9,0v2.478c0,4.058-9,11.022-9,11.022s-9-6.964-9-11.022v-2.478a4.5,4.5,0,0,1,9,0" transform="translate(1076.935 357.043)" fill="rgba(0,0,0,0)" stroke="#aaa" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="item-category">
+                <text><tspan id="category-text">Category: </tspan><tspan id="category">Shoes</tspan></text>
+            </div>
+
+            <div class="tags">
+                <text><tspan>Tags:</tspan></text>
+                @if (oneProduct.tags != null)
+                {
+                    @foreach (var tag in oneProduct.tags)
+                    {
+                        if (tag.Trim().Length > 0)
+                        {
+                            <button class="tags-btn">
+                                @tag
+                            </button>
+                        }
+                    }
+                }
+            </div>
+            <div class="share d-flex justify-content-between">
+                <text><tspan>Share:</tspan></text>
+                <button class="share-btn facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="share-btn linkedin">
+                    <i class="fab fa-linkedin-in"></i>
+                </button>
+                <button class="share-btn instagram">
+                    <i class="fab fa-instagram"></i>
+                </button>
+                <button class="share-btn twitter">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="share-btn pinterest">
+                    <i class="fab fa-pinterest-p"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container product-more">
+    <button class="btn-description @descriptionActive" @onclick="() => GetText(MoreInfo.Descripion)">
+        Description
+    </button>
+    <button class="btn-additional @additionalActive" @onclick="() => GetText(MoreInfo.Additional)">
+        Additional Information
+    </button>
+    <button class="btn-reviews @reviewsActive" @onclick="() => GetText(MoreInfo.Reviews)">
+        Reviews (2)
+    </button>
+    <button class="btn-brand @brandActive" @onclick="() => GetText(MoreInfo.Brand)">
+        About Brand
+    </button>
+    <div class="product-more-holder">
+        @someText
+    </div>
+</div>
+
+<div class="info">
+    <InfoBanner />
+</div>
+
+<div class="container">
+    <CarouselHeader BlackText="YOU MAY" ColorText="ALSO LIKE" ShowWave="true" />
+</div>
+
+<div class="carousel">
+    @if (oneProduct.categories != null)
+    {
+        <Carousel Id="1" Value="@oneProduct.categories[0]" Category="@ParamOptions.Category" /> @*The carousel must have unique Id if you’re using multiple carousels on a single page*@
+    }
+</div>
+
+<div class="container">
+    <CarouselHeader BlackText="RELATED" ColorText="PRODUCTS" ShowWave="true" />
+</div>
+
+<div class="carousel">
+    @if (oneProduct.tags != null)
+    {
+        <Carousel Id="2" Value="@oneProduct.tags[0]" Category="@ParamOptions.Tag" /> @*The carousel must have unique Id if you’re using multiple carousels on a single page*@
+    }
+</div>
+
+@code {
+    private string[] image = new string[4];
+    private ProductModel oneProduct;
+
+    private ShoppingCartModel CreatedShoppingCart;
+
+    private CartItemModel cartItem = new();
+    private string imageSrc = "";
+    private string someText = "";
+    private string descriptionActive = "";
+    private string additionalActive = "";
+    private string reviewsActive = "";
+    private string brandActive = "";
+
+    private decimal _subTotalPrice;
+
+    [Parameter]
+    public string Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        int _count = 0;
+        oneProduct = new();
+        oneProduct = await Http.GetFromJsonAsync<ProductModel>($"api/products/{Id}");
+
+        if (oneProduct.images != null)
+        {
+            // Get all the pictures from the database. Max 4
+            foreach (var img in oneProduct.images)
+            {
+                image[_count] = "/images/" + img;
+                _count++;
+                if (_count > 3)
+                {
+                    break;
+                }
+            }
+            // Fill upp with dummy pictures
+            for (int i = _count; i < 4; i++)
+            {
+                image[i] = "/images/Product_thumb4.png";
+            }
+            imageSrc = image[0];
+        }
+
+        cartItem.Quantity = 1;
+
+        // Setting the reviews-tab as default
+        GetText(MoreInfo.Reviews);
+    }
+
+    private void SetQuantity(bool add)
+    {
+        if (add)
+        {
+            cartItem.Quantity++;
+        }
+        else
+        {
+            cartItem.Quantity--;
+        }
+
+        if (cartItem.Quantity < 1)
+        {
+            cartItem.Quantity = 1;
+        }
+    }
+
+    private void ChangePicture(string src)
+    {
+        imageSrc = src;
+    }
+
+    private void GetText(MoreInfo info)
+    {
+        descriptionActive = "";
+        additionalActive = "";
+        reviewsActive = "";
+        brandActive = "";
+
+        switch (info)
+        {
+            case MoreInfo.Additional:
+                someText = oneProduct.additionalinfo;
+                additionalActive = "btn-active";
+                break;
+
+            case MoreInfo.Brand:
+                someText = "SHOW BRAND HERE!";
+                brandActive = "btn-active";
+                break;
+            case MoreInfo.Descripion:
+                someText = oneProduct.description;
+                descriptionActive = "btn-active";
+                break;
+            case MoreInfo.Reviews:
+                someText = "SHOW REVIEWS HERE!";
+                reviewsActive = "btn-active";
+                break;
+            default:
+                someText = "";
+                break;
+        }
+    }
+
+    private async Task AddToCart()
+    {
+        if (cartItem.Quantity > 0)
+        {
+            bool _newCartItem = true;
+            int _cartItems = cartItem.Quantity;
+
+            cartItem.ProductId = oneProduct.Id;
+            cartItem.ProductName = oneProduct.name;
+            cartItem.Image = oneProduct.images[0];
+            cartItem.Price = oneProduct.price;
+
+            if (MainShoppingCart == null || OrderPlaced == true)
+            {
+                // Create a new shoppingcart
+                MainShoppingCart = new();
+                MainShoppingCart.Products.Add(cartItem);
+                var result = await Http.PostAsJsonAsync($"api/shoppingcart/", MainShoppingCart);
+                CreatedShoppingCart = await result.Content.ReadFromJsonAsync<ShoppingCartModel>();
+                MainShoppingCart.Id = CreatedShoppingCart.Id;
+                CartId = CreatedShoppingCart.Id;
+                OrderPlaced = false;
+            }
+            else
+            {
+                if (CartItems == 0)
+                {
+                    MainShoppingCart.Products.RemoveAll(p => true);
+                }
+                foreach (var item in MainShoppingCart.Products)
+                {
+                    _cartItems += item.Quantity;
+
+                    if (Id == item.ProductId)
+                    {
+                        item.Quantity += cartItem.Quantity;
+                        _newCartItem = false;
+                    }
+                }
+
+                if (_newCartItem)
+                {
+                    MainShoppingCart.Products.Add(cartItem);
+                }
+
+                await Http.PutAsJsonAsync($"api/shoppingcart/{MainShoppingCart.Id}", MainShoppingCart);
+            }
+
+            CartItems = _cartItems;
+            //Update navbar with cart info
+            globals.SetCartItems(_cartItems);
+            foreach (var item in MainShoppingCart.Products){
+                _subTotalPrice += item.Price * item.Quantity;
+            }
+            globals.SetCartSum(_subTotalPrice);
+            NavManager.NavigateTo("/productshop");
+        }
+    }
+
+    private void SetActiveButton()
+    {
+
+    }
+}
+}

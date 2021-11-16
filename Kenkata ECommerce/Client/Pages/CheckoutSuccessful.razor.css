@@ -1,0 +1,53 @@
+﻿@media (min-width: 0px) {
+    .thanks {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .thanksImg {
+        width: 90%;
+        margin-bottom: 2rem;
+    }
+
+    .HomeButton {
+        background-color: #20D3C2;
+        color: white;
+        width: 10rem;
+        padding: 0.3rem 1rem 0.3rem 1rem;
+        border-radius: 3rem;
+        height: 2.8rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        justify-items: center;
+        margin-top: 2rem;
+    }
+    .HomeButton:hover, .HomeButton:active {
+        background-color: rgba(32,211,194,0.08);
+        color: #20D3C2;
+    }
+}
+
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+    .thanksImg {
+        width: 80%;
+    }
+}
+
+@media (min-width: 992px) {
+    .thanksImg {
+        width: auto;
+    }
+}
+
+@media (min-width: 1200px) {
+    /**/
+}
+
+@media (min-width: 1400px) {
+}

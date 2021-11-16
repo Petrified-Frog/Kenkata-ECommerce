@@ -1,0 +1,74 @@
+﻿@page "/TestPagination/{Page:int}"
+@page "/TestPagination"
+
+<h3>Test Pagination - KenKata ECommerce DB</h3>
+
+<table class="table table-sm table-bordered table-striped ">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>DOB</th>
+            <th>Standard</th>
+            <th>Sex</th>
+            <th>Email</th>
+            <th>Terms</th>
+            <th>School</th>
+            <th>Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.name</td>
+                <td>@product.price.</td>
+                <td>@product.tags</td>
+                <td>@product.description</td>
+                <td>@product.categories</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <Paging PI="pagingInfo" PageClassesEnabled="true" PageClass="Paging" PageClassSelected="active"></Paging>
+    </tfoot>
+</table>
+
+@code {
+
+    private List<ProductModel> allproducts;
+
+    public IEnumerable<ProductModel> Products { get; set; } = Enumerable.Empty<ProductModel>();
+
+    [Parameter]
+    public int page { get; set; }
+
+    PagingInfo pagingInfo = new PagingInfo();
+
+    protected override async Task OnInitializedAsync()
+    {
+        allproducts = new();
+        allproducts = await Http.GetFromJsonAsync<List<ProductModel>>("api/products");
+    }
+
+    protected override void OnParametersSet()
+    {
+        CreatePagingInfo();
+    }
+
+    public void CreatePagingInfo()
+    {
+
+        int PageSize9 = 9;
+        pagingInfo = new PagingInfo();
+        page = page == 0 ? 1 : page;
+        pagingInfo.CurrentPage = page;
+        pagingInfo.TotalItems = allproducts.Count();
+        pagingInfo.ItemsPerPage = PageSize9;
+
+        var skip = PageSize9 * (Convert.ToInt32(page) - 1);
+        Products = allproducts.Skip(skip).Take(PageSize9).ToList();
+    }
+}

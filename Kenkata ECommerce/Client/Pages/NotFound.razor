@@ -1,0 +1,21 @@
+﻿@page "/notfound"
+
+<div class="NotFound">
+    <div>
+        <img class="ErrorImg" src="siteImages/404/404.png" alt="">
+        <h1>Oops! The page you are looking for doesn't exist.</h1>
+        <button class="HomeButton" @onclick="()=>Homeagain()">HOME</button>
+        <button class="ContactButton" @onclick="()=>ToContact()">CONTACT US</button>
+    </div>
+</div>
+
+@code {
+    private void Homeagain()
+    {
+        NavManager.NavigateTo("/");
+    }
+    private void ToContact()
+    {
+        NavManager.NavigateTo("/notfound");
+    }
+}

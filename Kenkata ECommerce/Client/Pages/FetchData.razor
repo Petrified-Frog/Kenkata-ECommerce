@@ -1,0 +1,240 @@
+﻿@page "/fetchproducts"
+@using Kenkata_ECommerce.Shared.Models
+
+<h1>Produkter</h1>
+
+<div>
+
+    <button type="button" class="btn btn-success" @onclick="() => RandomizeProductsLoop()">Randomize product</button>
+    <input @bind="loopTimes" />
+    Times
+</div>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Färg</th>
+                <th>Antal</th>
+                <th>Artikelnummer</th>
+                <th>Namn</th>
+                <th>Pris</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@oneProduct.color</td>
+                <td>@oneProduct.Stock</td>
+                <td>@oneProduct.articleNr</td>
+                <td>@oneProduct.name</td>
+                <td>@oneProduct.price kr</td>
+            </tr>
+            <tr>
+                <td>@oneProductFilter.name</td>
+                <td>@oneProductFilter.price</td>
+                <td>@oneProductFilter.brand</td>
+                <td>
+                    @foreach (var category in oneProductFilter.categories)
+                        @category
+                </td>
+                <td>
+                    @foreach (var tag in oneProductFilter.tags)
+                        @tag
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+}
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Antal</th>
+                <th>Artikelnummer</th>
+                <th>Namn</th>
+                <th>Pris</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Stock</td>
+                    <td>@product.articleNr</td>
+                    <td>@product.name</td>
+                    <td>@product.price kr</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private ProductModel oneProduct;
+    private List<ProductModel> products;
+    private ProductModel UProduct;
+    private ProductModel CProduct;
+    private OverlayProductModel oneProductFilter;
+
+    private int loopTimes = 2;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Get by Id
+        oneProduct = new();
+        oneProduct = await Http.GetFromJsonAsync<ProductModel>("api/products/" + "616d23aaf08ce283b7ba9414");
+
+        //Get by Id filter
+        oneProductFilter = new();
+        oneProductFilter = await Http.GetFromJsonAsync<OverlayProductModel>("api/products/" + "616d23aaf08ce283b7ba9414" + "/true");
+
+        //Create
+        CProduct = new();
+        var httpClient = new HttpClient();
+        var result = await Http.PostAsJsonAsync("api/products/", new ProductModel()
+        {
+            articleNr = "74281931",
+            name = "Created Test Product",
+            description = "Testing Create",
+            color = "blue",
+            brand = "Dallas",
+            price = 900,
+            size = "XXL",
+            Stock = 10,
+            categories = new string[] { "Shoes" },
+            tags = new string[] { "Sports", "Burdock" },
+            additionalinfo = "nothing",
+            images = new string[] { "DP0107201603172435M.jpg", "DP0107201603172435M.jpg" },
+        });
+        CProduct = await result.Content.ReadFromJsonAsync<ProductModel>();
+        Console.WriteLine(CProduct.articleNr);
+
+        //Get all
+        products = new();
+        products = await Http.GetFromJsonAsync<List<ProductModel>>("api/products");
+
+        //Update
+        UProduct = new ProductModel()
+        {
+            Id = "616d23aaf08ce283b7ba9414",
+            articleNr = "15581931",
+            name = "Updated Product",
+            description = "Testing update",
+            color = "green",
+            brand = "Dallas",
+            price = 500,
+            size = "XXL",
+            Stock = 10,
+            categories = new string[] { "Shoes" },
+            tags = new string[] { "Sports", "Burdock" },
+            additionalinfo = "nothing",
+            images = new string[] { "DP0107201603172435M.jpg", "DP0107201603172435M.jpg" },
+        };
+        await Http.PutAsJsonAsync("api/products/" + "616d23aaf08ce283b7ba9414", UProduct);
+
+        //Delete (as default it deletes the product created with the test code fr create)
+        await Http.DeleteAsync("api/products/" + CProduct.Id);
+    }
+
+    private async Task RandomizeProductsLoop()
+    {
+        for(int i=0; i < loopTimes; i++)
+        {
+            await CreateRandomProduct();
+        }
+        //update list
+        products = new();
+        products = await Http.GetFromJsonAsync<List<ProductModel>>("api/products");
+    }
+
+    //search artnr
+    private async Task CreateRandomProduct()
+    {
+
+        Random rand = new Random();
+        string[] brand_pool = { "Bexim", "Lighton", "Dismis", "Rosimo", "Dallas" };
+        string[] category_pool = { "Men", "Women", "Kids", "Hats", "Sunglasses", "Shoes", "Watches" };
+        string[] tag_pool = { "Sports", "Fashion", "Accessory", "Shirt", "Unisex", "Burdock", "Outback", "Classy", "Protection", "Summer", "On sale", "Spring", "Fall", "Winter" };
+        string[] color_pool = { "Black", "Grey", "Red", "Green", "Orange", "Brown", "Blue" };
+        string[] size_pool = { "XS", "S", "M", "L", "XL", "XXL" };
+        string[] verb_pool = { "Sporty", "Super", "Cool", "Fast", "Stylish", "Cheap", "Affordable", "Nice", "Thick", "Summer", "Tall", "Spring", "Fall", "Winter" };
+        string[] stuff_pool = { "Dress", "Pants", "Hat", "Cap", "Glasses", "Lenses", "T-shirt", "Shirt", "Jeans", "Skirt", "Tie", "Watch", "Sneakers", "Boots", "Sandals", "Bracelet", "Monocle" };
+        string[] pics_pool = { "DP0413201617045423M.jpg", "DP0421201617033514M.jpg", "DP1109201517012575M.jpg", "DP0624201520422666C.jpg", "DP0810201517010458M.jpg", "DP0917201317033820M.jpg", "DP0411201617053625M.jpg", "DP0721201517041500M.jpg", "DP1105201517015618M.jpg", "DP0414201520383920C.jpg", "DP0404201617034496M.jpg", "DP0702201517031050M.jpg", "DP1202201517021959M.jpg" };
+
+        List<string> tagList = new List<string>();
+        for (int i = 0; i <= rand.Next(1, 3); i++)
+            tagList.Add(tag_pool[rand.Next(tag_pool.Length)]);
+
+        List<string> catList = new List<string>();
+        for (int i = 0; i <= rand.Next(0, 2); i++)
+            catList.Add(category_pool[rand.Next(category_pool.Length)]);
+
+        List<string> imgList = new List<string>();
+        for (int i = 0; i <= rand.Next(0, 6); i++)
+            imgList.Add(pics_pool[rand.Next(pics_pool.Length)]);
+
+        //
+        //oneProduct = await Http.GetFromJsonAsync<ProductModel>("api/products/GetProductByArtNrAsync/" + "287170");
+        //Console.WriteLine("gotten2: " + oneProduct.articleNr);
+        //if (oneProduct.articleNr == null)
+        //    Console.WriteLine("Success: " + Http.GetAsync("api/products/GetProductByArtNrAsync/" + "287170"));
+        //
+
+        //randomiz article nr until one that is not already used in the db is found
+        string uniqeArtNr = "";
+        bool uniqeFound = false;
+        ProductModel searchResult = new ProductModel();
+        while (uniqeFound == false)
+        {
+            uniqeArtNr = rand.Next(100000, 999999).ToString();
+            searchResult = await Http.GetFromJsonAsync<ProductModel>("api/products/GetProductByArtNrAsync/" + uniqeArtNr);
+            if (searchResult.articleNr == null)
+                uniqeFound = true;
+        }
+
+        ProductModel newProduct = new ProductModel()
+        {
+            articleNr = uniqeArtNr,
+            brand = brand_pool[rand.Next(brand_pool.Length)],
+            categories = catList.ToArray(),
+            tags = tagList.ToArray(),
+            color = color_pool[rand.Next(color_pool.Length)],
+            price = rand.Next(100, 8000),
+            size = size_pool[rand.Next(size_pool.Length)],
+            Stock = rand.Next(0, 10),
+            name = verb_pool[rand.Next(verb_pool.Length)] + " " + stuff_pool[rand.Next(stuff_pool.Length)],
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed rutrum magna nec odio placerat suscipit. " +
+"Cras mauris leo, commodo nec fermentum at, blandit vel sem. Nulla id porttitor ex. Duis lobortis ante nec mauris tempus," +
+" et egestas tellus faucibus.",
+            additionalinfo = @" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non blandit turpis, quis ornare elit. Proin mollis elit sed quam ultrices," +
+" a tempus lectus molestie. Nunc id volutpat quam. Ut vitae erat convallis, tempor lorem in, dapibus justo. Curabitur dapibus condimentum convallis. " +
+"Nam consectetur libero eu massa aliquet interdum. Nunc at sagittis odio. Donec eget faucibus ex. Suspendisse eget eros pulvinar, congue felis nec, tempor libero.",
+            images = imgList.ToArray()
+
+        };
+
+        var result = await Http.PostAsJsonAsync("api/products/", newProduct);
+    }
+
+
+}
+
+}

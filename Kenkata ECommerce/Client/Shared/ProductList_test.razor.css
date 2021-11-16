@@ -1,0 +1,30 @@
+﻿
+.media-img {
+    max-height: 200px;
+    max-width: 200px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: transform .2s;
+}
+.media-img-big {
+    max-height: 300px;
+    max-width: 300px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+.media-img-wrapper {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+.media-img-big-wrapper {
+    width: 300px;
+    height: 300px;
+    text-align: center;
+}
+.media-img:hover {
+    transform: scale(1.1);
+}
+.price {
+    color: green;
+}

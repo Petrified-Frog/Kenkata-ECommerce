@@ -1,0 +1,146 @@
+﻿<div class="container mt-4 mb-5">
+    <div id="@IdName" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            @if (ProductRows > 0)
+            {
+                <button type="button" data-bs-target="@TargetName" data-bs-slide-to="0" class="btn-indicator active" aria-current="true" aria-label="Slide 1"></button>
+
+            }
+            @if (ProductRows > case1)
+            {
+                <button type="button" data-bs-target="@TargetName" data-bs-slide-to="1" class="btn-indicator" aria-label="Slide 2"></button>
+            }
+            @if (ProductRows > case2)
+            {
+                <button type="button" data-bs-target="@TargetName" data-bs-slide-to="2" class="btn-indicator" aria-label="Slide 3"></button>
+            }
+        </div>
+        <div class="carousel-inner">
+            @if (ProductRows > 0)
+            {
+                @for (int x = 0; x < ProductRows; x = Count)
+                {
+                    @switch (Count)
+                    {
+                    case 0:
+                        {
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    @for (int i = Count; i < case1; i++)
+                                    {
+                                        <div class="col-sm">
+                                            <ProductCard Id="@products[i].Id" />
+                                        </div>
+                                        Count++;
+                                        @if (Count == ProductRows)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            break;
+                        }
+                    case var value when value == case1:
+                        {
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @for (int i = Count; i < case2; i++)
+                                    {
+                                        <div class="col-sm">
+                                            <ProductCard Id="@products[i].Id" />
+                                        </div>
+                                        Count++;
+                                        @if (Count == ProductRows)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            break;
+                        }
+                    case var value when value == case2:
+                        {
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @for (int i = Count; i < case3; i++)
+                                    {
+                                        <div class="col-sm">
+                                            <ProductCard Id="@products[i].Id" />
+                                        </div>
+                                        Count++;
+                                        @if (Count == ProductRows)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+
+                    }
+                }
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="@TargetName" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="@TargetName" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    [Parameter]
+    public ParamOptions Category { get; set; } = ParamOptions.Brand;
+    [Parameter]
+    public string Value { get; set; } = "Bexim";
+    [Parameter]
+    public int PicturesToShow { get; set; } = 12;
+
+    private int case1, case2, case3, maxPictures = 12;
+
+    private List<ProductModel> products;
+    private string IdName;
+    private string TargetName;
+    private int ProductRows = 0;
+    private int Count ;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        IdName = $"carouselDark{Id}";
+        TargetName = $"#carouselDark{Id}";
+
+        products = new();
+        products = await Http.GetFromJsonAsync<List<ProductModel>>($"api/products/GetProductByParamAsync/{Category}/{Value}");
+
+        case1 = 4;
+        case2 = 8;
+        case3 = 12;
+        if (PicturesToShow == 9)
+        {
+            case1 = 3;
+            case2 = 6;
+            case3 = 9;
+            maxPictures = 9;
+        }
+
+        ProductRows = products.Count;
+        Count = 0;
+        if (ProductRows > PicturesToShow)
+        {
+            ProductRows = maxPictures;   // Max x products
+        }
+    }
+}

@@ -1,0 +1,275 @@
+﻿@media (min-width: 0px) {
+    a {
+        color: #20D3C2;
+        text-decoration: none;
+    }
+
+    label {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    button:disabled, button:hover:disabled {
+        background-color: grey;
+        color: white;
+    }
+    input {
+        margin-bottom: 0.5rem;
+    }
+    input[type="text"] {
+        width: 100%;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 0.5rem;
+    }
+    textarea {
+        width: 100%;
+    }
+
+    ::placeholder {
+        font-size: 0.8rem;
+    }
+
+    .Splitpage {
+        margin-top: 2rem;
+    }
+
+    .OrderSummary hr {
+        margin: auto;
+        width: 90%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .ExtraThick {
+        color: #20D3C2;
+        margin: auto;
+        opacity: 1;
+        width: 90%;
+        size: 4px;
+        margin-bottom: 1rem;
+    }
+
+    .LoginText {
+        margin-bottom: 1rem;
+    }
+
+    .CheckoutForm {
+        margin-bottom: 2rem;
+    }
+
+    .CouponBox {
+        border: #E3E3E3 2px dashed;
+        border-radius: 0.3rem;
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .CouponInput {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .CouponField {
+        border-radius: 3rem;
+        padding-right: 8rem;
+        padding-left: 1rem;
+        margin-bottom: 0;
+        height: 3rem;
+        width: 100%;
+    }
+
+    .CouponButton {
+        background-color: #20D3C2;
+        color: white;
+        padding: 0rem 1rem 0rem 1rem;
+        border-radius: 3rem;
+        margin-left: -8.1rem;
+        height: 2.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .Mandatory {
+        color: #20D3C2;
+    }
+    
+    #ShippingAdress {
+        display: none;
+    }
+    #ShippingAddresCheck:checked ~ #ShippingAdress {
+        display: block;
+    }
+
+    .OrderSummaryMain {
+        border: #0E153D 2px dashed;
+        border-top: none;
+        border-radius: 0.5rem;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .OrderSummaryHeader {
+        background-color: #0E153D;
+        color: #20D3C2;
+        border-top-left-radius: 0.5rem;
+        border-top-right-radius: 0.5rem;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        padding: 1rem 0 1rem 0;
+    }
+
+    .ProductListHeader {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        color: #20D3C2;
+    }
+
+    .ProductListItem {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .ProductListSubTotal {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .SubtotalText {
+        color: #20D3C2;
+        font-weight: 600;
+    }
+
+    .ShippingOptions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 1rem;
+    }
+
+    .SummaryTotal {
+        display: flex;
+        justify-content: space-between;
+        color: #20D3C2;
+        padding: 1rem;
+    }
+
+    .Important {
+        color: #20D3C2;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .Payment {
+        width: 90%;
+        margin: auto;
+    }
+
+    .Muted {
+        color: #777777;
+        font-size: 0.9rem;
+    }
+
+    .InfoText {
+        background-color: #0E153D;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        margin: 0.5rem 1rem 0.5rem 1rem;
+    }
+
+    #TextDirect, #TextCheck, #TextCash {
+        display: none;
+    }
+
+    #RadioDirect:checked ~ #TextDirect, #RadioCheck:checked ~ #TextCheck, #RadioCash:checked ~ #TextCash {
+        display: block;
+    }
+
+    .Privacy {
+        width: 90%;
+        margin: auto;
+    }
+
+    .TermsCheck {
+        display: flex;
+        width: 90%;
+        margin: auto;
+        margin-bottom: 1rem;
+    }
+
+    .PlaceOrder {
+        width: 90%;
+        margin: auto;
+        margin-bottom: 1rem;
+    }
+
+    .OrderButton {
+        background-color: #20D3C2;
+        color: white;
+        width: 100%;
+        padding: 0rem 1rem 0rem 1rem;
+        border-radius: 3rem;
+        height: 2.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        justify-items: center;
+    }
+    .CouponButton:hover, .CouponButton:active, .OrderButton:hover, .OrderButton:active {
+        background-color: rgba(32,211,194,0.08);
+        color: #20D3C2;
+    }
+    
+}
+
+@media (min-width: 576px) {
+    .Splitline {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .Leftline {
+        width: 45%;
+    }
+
+    .Rightline {
+        width: 45%;
+    }
+}
+
+@media (min-width: 768px) {
+    /**/
+}
+
+@media (min-width: 992px) {
+    .Splitpage {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .UserForm {
+        width: 45%;
+    }
+
+    .OrderSummary {
+        width: 45%;
+    }
+}
+
+@media (min-width: 1200px) {
+    /**/
+}
+
+@media (min-width: 1400px) {
+}

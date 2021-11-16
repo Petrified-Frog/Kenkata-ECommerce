@@ -1,0 +1,11 @@
+﻿<div class="ProductListItem">
+    <span>@ShoppingCart.ProductName</span>
+    <span>$@ShoppingCart.Price</span>
+</div>
+<hr>
+
+@code {
+
+    [Parameter]
+    public CartItemModel ShoppingCart { get; set; }
+}

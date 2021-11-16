@@ -1,0 +1,72 @@
+﻿@page "/fetchcustomer"
+@using Kenkata_ECommerce.Shared.Models
+
+<h1>Användare</h1>
+
+<p>Här listas alla kunder från kundtabellen.</p>
+
+<button type="button" class="btn btn-success" @onclick="() => CreateNewCustomer()">Skapa ny kund</button>
+
+<br>
+<br>
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Förnamn</th>
+                <th>Efternamn</th>
+                <th>Adress</th>
+                <th>Postnummer</th>
+                <th>Stad</th>
+                <th>Län</th>
+                <th>Land</th>
+                <th>Telefon</th>
+                <th>E-postadress</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+            <tr>
+                <td>@customer.FirstName</td>
+                <td>@customer.LastName</td>
+                <td>@customer.Address</td>
+                <td>@customer.Zip</td>
+                <td>@customer.City</td>
+                <td>@customer.State</td>
+                <td>@customer.Region</td>
+                <td>@customer.Phone</td>
+                <td>@customer.Email</td>
+                <td><button type="button" class="btn btn-dark" @onclick="() => EditCustomer(customer)">Edit</button></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<CustomerModel> customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = new();
+        customers = await Http.GetFromJsonAsync<List<CustomerModel>>("api/customer");
+    }
+
+    private void EditCustomer(CustomerModel customer)
+    {
+        NavManager.NavigateTo($"/editcustomer/{customer.Id}");
+    }
+
+    private void CreateNewCustomer()
+    {
+        NavManager.NavigateTo("/createcustomer");
+    }
+
+}

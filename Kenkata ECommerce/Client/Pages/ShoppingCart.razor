@@ -1,0 +1,139 @@
+﻿@page "/shoppingcart/{id}"
+@using Kenkata_ECommerce.Shared.Models
+
+<div class="container main-container">
+    <div class="cart-items-holder">
+        <div class="cart-header">
+            <div class="header-delete">
+
+            </div>
+            <div class="header-text">
+                Product
+            </div>
+            <div class="header-price">
+                Price
+            </div>
+            <div class="header-quantity">
+                Quantity
+            </div>
+            <div class="header-subtotal">
+                Subtotal
+            </div>
+        </div>
+        @if (MainShoppingCart != null)
+        {
+            @foreach (var item in MainShoppingCart.Products)
+            {
+                <div class="cart-items-holder">
+                    <div class="cart-item">
+                        <div class="item-delete">
+                            <button class="btn-delete" @onclick="() => DeleteItem(item)">X</button>
+                        </div>
+                        <div class="item-image">
+                            <img class="cart-image-small-img" src="/images/@item.Image" alt="" />
+                        </div>
+                        <div class="item-text">
+                            @item.ProductName
+                        </div>
+                        <div class="item-price">
+                            @item.Price
+                        </div>
+                        <div class="item-counter-holder">
+                            <div class="counter d-flex align-items-start">
+                                <button class="btn-left" @onclick="() => SetQuantity(item, false)">-</button>
+                                <div class="item-counter">
+                                    <label>@item.Quantity</label>
+                                </div>
+                                <button class="btn-right" @onclick="() => SetQuantity(item, true)">+</button>
+                            </div>
+                        </div>
+                        <div class="item-total">
+                            <span>$@GetTotalItemPrice(item)</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <div class="cart-che ckout">
+            <button class="btn-checkout" @onclick="() => GoToCheckOut()">PROCEED TO CHECKOUT</button>
+        </div>
+        <div class="subtotal">
+            <p>Subtotal</p>
+            <p class="subtotal-price">$@SetSubTotalPrice()</p>
+        </div>
+    </div>
+    <CarouselHeader BlackText="YOU MAY" ColorText="ALSO LIKE" ShowWave="true" />
+</div>
+
+<div class="may-also">
+    <Carousel />
+</div>
+
+@code{
+    [Parameter]
+    public string Id { get; set; }
+
+    private decimal _price;
+    private decimal _subTotalPrice;
+
+    private decimal GetTotalItemPrice(CartItemModel item)
+    {
+        return item.Price * item.Quantity;
+    }
+
+    private decimal SetSubTotalPrice()
+    {
+        _subTotalPrice = 0;
+        foreach (var item in MainShoppingCart.Products)
+        {
+            _subTotalPrice += item.Price * item.Quantity;
+        }
+        return _subTotalPrice;
+    }
+
+    private async void DeleteItem(CartItemModel item)
+    {
+        MainShoppingCart.Products.RemoveAll(p => p.ProductId == item.ProductId);
+        await UpdateCart();
+    }
+
+    private void GoToCheckOut()
+    {
+        NavManager.NavigateTo($"/checkout/{Id}");
+    }
+
+    private async void SetQuantity(CartItemModel item, bool add)
+    {
+        if (add)
+        {
+            item.Quantity++;
+        }
+        else
+        {
+            item.Quantity--;
+        }
+
+        if (item.Quantity < 1)
+        {
+            item.Quantity = 1;
+        }
+
+        await UpdateCart();
+    }
+
+    private async Task UpdateCart()
+    {
+        await Http.PutAsJsonAsync($"api/shoppingcart/{MainShoppingCart.Id}", MainShoppingCart);
+        CartItems = 0;
+        foreach (var item in MainShoppingCart.Products)
+        {
+            CartItems += item.Quantity;
+        }
+        globals.SetCartItems(CartItems);
+        globals.SetCartSum(_subTotalPrice);
+        if (CartItems == 0)
+        {
+            NavManager.NavigateTo("/productshop");
+        }
+    }
+}

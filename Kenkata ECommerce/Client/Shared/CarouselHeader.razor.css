@@ -1,0 +1,18 @@
+﻿.carousel-text {
+    margin: auto;
+    margin-top: 5rem;
+}
+.black-text {
+    display: flex;
+    font-size: 34px;
+    font-weight: 800;
+    justify-content: center;
+}
+.color-text {
+    color: #20d3c2;
+}
+.wave {
+    justify-content: center;
+    width: 100%
+}
+

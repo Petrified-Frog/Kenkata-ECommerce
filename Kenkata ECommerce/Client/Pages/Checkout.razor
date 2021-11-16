@@ -1,0 +1,571 @@
+﻿@page "/checkout/{cartId}"
+
+<div class="container Splitpage">
+    <div class="UserForm">
+        <div class="LoginText">
+            <span>Returning customer? <a href="/notfound">Click here to login</a></span>
+        </div>
+        <div class="CouponBox">
+            <span>If you have a coupon code, please apply it below.</span>
+            <div class="CouponInput">
+                <input class="CouponField" @bind="couponCode" type="text" placeholder="Coupon code">
+                <button class="CouponButton">Apply Coupon</button>
+            </div>
+        </div>
+        @*Some/most of these fields should not be shown when logged in. Changing adrress should then be done on your account page.*@
+        <h2>BILLING DETAILS</h2>
+        <div class="CheckoutForm">
+            <form action="">
+                <div class="Splitline">
+                    <div class="Leftline">
+                        <label for="">First name<span class="Mandatory">*</span></label><br>
+                        <input type="text" value="@firstName" @onchange="@(e => StoreFirstName(e))"> @*onchange is used to call a method that stores sessiondata*@
+                    </div>
+                    <div class="Rightline">
+                        <label for="">Last name<span class="Mandatory">*</span></label><br>
+                        <input type="text" value="@lastName" @onchange="@(e => StoreLastName(e))">
+                    </div>
+                </div>
+                <div>
+                    <label for="">Company name (optional)</label><br>
+                    <input type="text" value="@company" @onchange="@(e => StoreChangeAsync(e, "company"))">
+                </div>
+                <div>
+                    <label for="">Country / Region<span class="Mandatory">*</span></label><br>
+                    <input type="text" name="country" value="@country" @onchange="@(e => StoreCountry(e))">
+                </div>
+                <div>
+                    <label for="">Street address<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@address1" @onchange="@(e => StoreAddress1(e))" placeholder="House number and street name">
+                    <input type="text" value="@address2" @onchange="@(e => StoreChangeAsync(e, "address2"))" placeholder="Apartment, suit, unit etc. (optional)">
+                </div>
+                <div>
+                    <label for="">Town / City<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@city" @onchange="@(e => StoreCity(e))">
+                </div>
+                <div>
+                    <label for="">State<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@state" @onchange="@(e => StoreState(e))">
+                </div>
+                <div>
+                    <label for="">ZIP<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@zip" @onchange="@(e => StoreZip(e))">
+                </div>
+                <div>
+                    <label for="">Phone<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@phone" @onchange="@(e => StorePhone(e))">
+                </div>
+                <div>
+                    <label for="">Email address<span class="Mandatory">*</span></label><br>
+                    <input type="text" value="@email" @onchange="@(e => StoreEmail(e))">
+                </div>
+                <div>
+                    <input type="checkbox" @bind="createAccount" disabled>
+                    <label for="">Create an account?</label>
+                </div>
+                <hr>
+                <div>
+                    <input id="ShippingAddresCheck" type="checkbox" @bind="otherAddress">
+                    <label for=""><h2>SHIP TO A DIFFERENT ADDRESS?</h2></label>
+                    <div id="ShippingAdress">
+                        <div class="Splitline">
+                            <div class="Leftline">                                
+                                <label for="">First name<span class="Mandatory">*</span></label><br>
+                                <input type="text" value="@shippingFirstName" @onchange="@(e => StoreShippingFirstName(e))">
+                            </div>
+                            <div class="Rightline">
+                                <label for="">Last name<span class="Mandatory">*</span></label><br>
+                                <input type="text" value="@shippingLastName" @onchange="@(e => StoreShippingLastName(e))">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="">Company name (optional)</label><br>
+                            <input type="text" value="@shippingCompany" @onchange="@(e => StoreChangeAsync(e, "shippingCompany"))">
+                        </div>
+                        <div>
+                            <label for="">Country / Region<span class="Mandatory">*</span></label><br>
+                            <input type="text" value="@shippingCountry" @onchange="@(e => StoreShippingCountry(e))">
+                        </div>
+                        <div>
+                            <label for="">Street address<span class="Mandatory">*</span></label><br>
+                            <input type="text" value="@shippingAddress1" @onchange="@(e => StoreShippingAddress1(e))" placeholder="House number and street name">
+                            <input type="text" value="@shippingAddress2" @onchange="@(e => StoreChangeAsync(e, "shippingAddress2"))" placeholder="Apartment, suit, unit etc. (optional)">
+                        </div>
+                        <div>
+                            <label for="">Town / City<span class="Mandatory">*</span></label><br>
+                            <input type="text" value="@shippingCity" @onchange="@(e => StoreShippingCity(e))">
+                        </div>
+                        <div>
+                            <label for="">State<span class="Mandatory">*</span></label><br>
+                            <input type="text" value="@shippingState" @onchange="@(e => StoreShippingState(e))">
+                        </div>
+                        <div>
+                            <label for="">ZIP<span class="Mandatory">*</span></label><br>
+                            <input type="text" value="@shippingZip" @onchange="@(e => StoreShippingZip(e))">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span>Order notes (optional)</span>
+                    <textarea name="" value="@message" @onchange="@(e => StoreChangeAsync(e, "message"))" placeholder="Notes about your order, e.g. special notes for delivery." id="" cols="30" rows="10"></textarea>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="OrderSummary">
+
+        <div class="OrderSummaryHeader">
+            <span>YOUR ORDER</span>
+        </div>
+
+        <div class="OrderSummaryMain">
+            <div class="ProductListHeader Important">
+                <span>PRODUCT</span>
+                <span>SUBTOTAL</span>
+            </div>
+
+            @if (shoppingCart == null)
+            {
+                <span>Loading...</span>
+            }
+            else
+            {
+                @foreach (CartItemModel item in shoppingCart.Products)
+                {
+                    @for (int i = 1; i <= item.Quantity; i++)
+                    {
+                        <CheckoutLine ShoppingCart="@item" />
+                    }
+                }
+            }
+
+            <div class="ProductListSubTotal">
+                <span class="SubtotalText">Subtotal</span>
+                <span class="SubtotalText">$@cartSum()</span>
+            </div>
+            <hr>
+
+            <!--When coupons are implemented, show coupon effect here!-->
+
+            <div class="ShippingOptions">
+                <div>
+                    <span>Shipping</span>
+                </div>
+                <div>
+                    <label for="flat">Flat rate: <span class="Mandatory">$20</span> </label>
+                    <input type="radio" name="shipping" value="@shippingOptions.flat_rate" checked="@(currentShipping == @shippingOptions.flat_rate)" @onchange="@(async e=> { currentShipping = @shippingOptions.flat_rate; await StoreChangeAsync(e, "currentShipping"); })"><br> @*Onchange: first line keeps track of selection, the second line saves selection to sessionstorage*@
+
+                    <label for="free">Free shipping</label>
+                    <input type="radio" name="shipping" value="@shippingOptions.free" checked="@(currentShipping == @shippingOptions.free)" @onchange="@(async e=> { currentShipping = @shippingOptions.free; await StoreChangeAsync(e, "currentShipping"); })"><br>
+
+                    <label for="flat">Local pickup: <span class="Mandatory">$25</span> </label>
+                    <input type="radio" name="shipping" value="@shippingOptions.Local_pickup" checked="@(currentShipping == @shippingOptions.Local_pickup)" @onchange="@(async e=> { currentShipping = @shippingOptions.Local_pickup; await StoreChangeAsync(e, "currentShipping"); })">
+                </div>
+
+            </div>
+            <hr>
+
+            <div class="SummaryTotal">
+                <span class="Important">Total</span>
+                <span class="Important">$@TotalSum()</span>
+            </div>
+
+            <hr class="ExtraThick">
+
+            <div class="Payment">
+                <input id="RadioDirect" type="radio" name="payment" value="@paymentMethods.direct_bank" checked="@(currentPayment == paymentMethods.direct_bank)" @onchange="@(async e=> { currentPayment = paymentMethods.direct_bank; await StoreChangeAsync(e, "currentPayment"); })">
+                <label for="direct">Direct bank transfer</label><br>
+                <span id="TextDirect" class="InfoText">
+                    Make your payment directly into our bank account. Please use your Order ID as the payment reference.
+                    Your order won’t be shipped until the funds have cleared in our account.
+                </span>
+
+                <input id="RadioCheck" type="radio" name="payment" value="@paymentMethods.check" checked="@(currentPayment == paymentMethods.check)" @onchange="@(async e=> { currentPayment = paymentMethods.check; await StoreChangeAsync(e, "currentPayment"); })">
+                <label for="check">Check Payment</label><br>
+                <span id="TextCheck" class="InfoText">
+                    Something something about checks.
+                </span>
+
+                <input id="RadioCash" type="radio" name="payment" value="@paymentMethods.cash" checked="@(currentPayment == paymentMethods.cash)" @onchange="@(async e=> { currentPayment = paymentMethods.cash; await StoreChangeAsync(e, "currentPayment"); })">
+                <label for="cash">Cash on delivery</label><br>
+                <span id="TextCash" class="InfoText">
+                    Something something about cash.
+                </span>
+
+                <input type="radio" name="payment" value="@paymentMethods.paypal" checked="@(currentPayment == paymentMethods.paypal)" @onchange="@(async e=> { currentPayment = paymentMethods.paypal;await StoreChangeAsync(e, "currentPayment"); })">
+                <label for="paypal">
+                    Paypal
+                    <a href="http://paypal.com" target="_blank"><img src="images/icons/PayPal logo.png"></a>
+                    <a class="Muted" href="http://paypal.com" target="_blank"> What is PayPal?</a>
+                </label>
+
+            </div>
+
+            <hr>
+
+            <div class="Privacy">
+                <p>
+                    Your personal data will be used to process your order, support your experience throughout this website,
+                    and for other purposes described in our <a class="Mandatory" href="">privacy policy.</a>
+                </p>
+            </div>
+
+            <hr>
+
+            <div class="TermsCheck">
+                <div>
+                    <input type="checkbox" name="termsread" @bind="readTerms">
+                </div>
+                <div>
+                    <label for="termsread">I have read and agree to the website <a class="Mandatory" href="">terms and conditions *</a> </label>
+                </div>
+            </div>
+
+            <div class="PlaceOrder">
+                <button class="OrderButton" @onclick="()=>PlaceOrder()" disabled="@(!OrderValidation())">PLACE ORDER</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public string cartId { get; set; } //Current shoppingcart Id.
+
+    public OrderModel order = new OrderModel();
+
+    private string couponCode = "";
+    private string firstName = ""; //Mandatory
+    private string lastName = ""; //Mandatory
+    private string company = "";
+    private string country = ""; //Mandatory
+    private string address1 = ""; //Mandatory
+    private string address2 = "";
+    private string city = ""; //Mandatory
+    private string state = ""; //Mandatory
+    private string zip = ""; //Mandatory
+    private string phone = ""; //Mandatory
+    private string email = ""; //Mandatory
+    private bool createAccount = false;
+    private bool otherAddress = false;
+    private string message = "";
+    private bool readTerms = false; //Mandatory
+    private List<CartItemModel> shoppingCartProducts = new List<CartItemModel>();
+
+    private string shippingFirstName = ""; //Mandatory
+    private string shippingLastName = ""; //Mandatory
+    private string shippingCompany = "";
+    private string shippingCountry = ""; //Mandatory
+    private string shippingAddress1 = ""; //Mandatory
+    private string shippingAddress2 = "";
+    private string shippingCity = ""; //Mandatory
+    private string shippingState = ""; //Mandatory
+    private string shippingZip = ""; //Mandatory    
+
+    private shippingOptions currentShipping = shippingOptions.flat_rate;
+    private paymentMethods currentPayment = paymentMethods.direct_bank;
+
+    private ShoppingCartModel shoppingCart = new ShoppingCartModel();
+    private ShoppingCartModel fakeCart = new ShoppingCartModel();
+
+    private OrderModel shoppingOrder = new OrderModel();
+
+    private string buttonDisabled = "disabled";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        shoppingCart = await Http.GetFromJsonAsync<ShoppingCartModel>($"api/ShoppingCart/{cartId}");
+    }
+
+    //Called from the Forms Input fileds with @onchange
+    private async Task StoreChangeAsync(ChangeEventArgs args, string inputLabel)
+    {
+        Console.WriteLine(args.Value);
+        Console.WriteLine(inputLabel);
+        await SessionStorage.SetItemAsync(inputLabel.ToString(), args.Value.ToString());
+        Console.WriteLine(args.Value.GetType());
+        Console.WriteLine(args.Value.ToString());
+
+        OrderValidation();
+    }
+
+    //This series of methods are a workaroun to the problem(bug?) with validation not seeing the input field values.
+    private async Task StoreFirstName(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("firstName", args.Value.ToString());
+        firstName = args.Value.ToString();
+    }
+    private async Task StoreLastName(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("lastName", args.Value.ToString());
+        lastName = args.Value.ToString();
+    }
+    private async Task StoreCountry(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("country", args.Value.ToString());
+        country = args.Value.ToString();
+    }
+    private async Task StoreAddress1(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("address1", args.Value.ToString());
+        address1 = args.Value.ToString();
+    }
+    private async Task StoreCity(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("city", args.Value.ToString());
+        city = args.Value.ToString();
+    }
+    private async Task StoreState(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("state", args.Value.ToString());
+        state = args.Value.ToString();
+    }
+    private async Task StoreZip(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("zip", args.Value.ToString());
+        zip = args.Value.ToString();
+    }
+    private async Task StorePhone(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("phone", args.Value.ToString());
+        phone = args.Value.ToString();
+    }
+    private async Task StoreEmail(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("email", args.Value.ToString());
+        email = args.Value.ToString();
+    }
+    private async Task StoreShippingFirstName(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingFirstName", args.Value.ToString());
+        shippingFirstName = args.Value.ToString();
+    }
+    private async Task StoreShippingLastName(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingLastName", args.Value.ToString());
+        shippingLastName = args.Value.ToString();
+    }
+    private async Task StoreShippingCountry(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingCountry", args.Value.ToString());
+        shippingCountry = args.Value.ToString();
+    }
+    private async Task StoreShippingAddress1(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingAddress1", args.Value.ToString());
+        shippingAddress1 = args.Value.ToString();
+    }
+    private async Task StoreShippingCity(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingCity", args.Value.ToString());
+        shippingCity = args.Value.ToString();
+    }
+    private async Task StoreShippingState(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingState", args.Value.ToString());
+        shippingState = args.Value.ToString();
+    }
+    private async Task StoreShippingZip(ChangeEventArgs args)
+    {
+        await SessionStorage.SetItemAsync("shippingZip", args.Value.ToString());
+        shippingZip = args.Value.ToString();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //If user is logged in:
+        //Get userdata and fill in the form with it here
+        //Remove create account checkbox
+        //
+        //load values from sessionStorage (Blazored)
+        firstName = await SessionStorage.GetItemAsync<string>("firstName");
+        lastName = await SessionStorage.GetItemAsync<string>("lastName");
+        company = await SessionStorage.GetItemAsync<string>("company");
+        country = await SessionStorage.GetItemAsync<string>("country");
+        address1 = await SessionStorage.GetItemAsync<string>("address1");
+        address2 = await SessionStorage.GetItemAsync<string>("address2");
+        city = await SessionStorage.GetItemAsync<string>("city");
+        state = await SessionStorage.GetItemAsync<string>("state");
+        zip = await SessionStorage.GetItemAsync<string>("zip");
+        phone = await SessionStorage.GetItemAsync<string>("phone");
+        email = await SessionStorage.GetItemAsync<string>("email");
+        message = await SessionStorage.GetItemAsync<string>("message");
+
+        shippingFirstName = await SessionStorage.GetItemAsync<string>("shippingFirstName");
+        shippingLastName = await SessionStorage.GetItemAsync<string>("shippingLastName");
+        shippingCompany = await SessionStorage.GetItemAsync<string>("shippingCompany");
+        shippingCountry = await SessionStorage.GetItemAsync<string>("shippingCountry");
+        shippingAddress1 = await SessionStorage.GetItemAsync<string>("shippingAddress1");
+        shippingAddress2 = await SessionStorage.GetItemAsync<string>("shippingAddress2");
+        shippingCity = await SessionStorage.GetItemAsync<string>("shippingCity");
+        shippingState = await SessionStorage.GetItemAsync<string>("shippingState");
+        shippingZip = await SessionStorage.GetItemAsync<string>("shippingZip");
+
+        Console.WriteLine("initasync");
+
+        //Console.WriteLine( await SessionStorage.GetItemAsync<string>("currentShipping"));
+        //Console.WriteLine( await SessionStorage.GetItemAsync<string>("currentPayment"));
+
+        //Some extra hoops to jump through due to using Enum
+
+        var shippingQueryResult = await SessionStorage.GetItemAsync<string>("currentShipping");
+        var paymentQueryResult = await SessionStorage.GetItemAsync<string>("currentPayment");
+        if (shippingQueryResult != null)
+            currentShipping = (shippingOptions)Enum.Parse(typeof(shippingOptions), shippingQueryResult);
+        if (paymentQueryResult != null)
+            currentPayment = (paymentMethods)Enum.Parse(typeof(paymentMethods), paymentQueryResult);
+
+    }
+
+    private decimal cartSum()
+    {
+        decimal sum = 0;
+        foreach (CartItemModel item in shoppingCart.Products)
+        {
+            for (int i = 1; i <= item.Quantity; i++)
+                sum += item.Price;
+        }
+
+        return sum;
+    }
+    private decimal TotalSum()
+    {
+        decimal sum = 0;
+        sum += cartSum();
+        //TODO:when coupons are implemented insert calculation here!
+        switch (currentShipping)
+        {
+
+            case shippingOptions.free: break;
+            case shippingOptions.Local_pickup: sum += 25; break;
+            default: sum += 20; break; //flat rate
+        }
+        return sum;
+    }
+
+    private async Task PlaceOrder()
+    {
+        OrderModel order = new OrderModel();
+        order.CustomerId = ""; //TODO: Check if logged in when that functionality exists
+        order.FirstName = firstName;
+        order.LastName = lastName;
+        order.Company = company;
+        order.Country = country;
+        order.StreetAddress = address1;
+        order.ApartmentAddress = address2;
+        order.City = city;
+        order.State = state;
+        order.Zip = zip;
+        order.Phone = phone;
+        order.Email = email;
+
+        List<string> productList = new List<string>();
+        foreach (CartItemModel product in shoppingCart.Products)
+            productList.Add(product.ProductId);
+        order.Products = productList;
+
+        order.CouponCode = couponCode;
+        order.ShippingOption = currentShipping;
+        order.Sum = TotalSum();
+        order.PaymentMethod = currentPayment;
+
+        if (otherAddress)
+        {
+            order.shippingFirstName = shippingFirstName;
+            order.shippingLastName = shippingLastName;
+            order.shippingCompany = shippingCompany;
+            order.shippingCountry = shippingCountry;
+            order.shippingAddress1 = shippingAddress1;
+            order.shippingAddress2 = shippingAddress2;
+            order.shippingCity = shippingCity;
+            order.shippingState = shippingState;
+            order.shippingZip = shippingZip;
+        }
+
+        //lower stock for products bought. Negative stock is fine for now. 
+        //TODO: A friendly message telling customer their order might take a while if order > stock.
+        ProductModel updatedProduct = new ProductModel();
+        foreach(CartItemModel item in shoppingCart.Products)
+        {
+            updatedProduct = await Http.GetFromJsonAsync<ProductModel>("api/products/" + item.ProductId);
+            Console.WriteLine("original: "+updatedProduct.Stock);
+            Console.WriteLine("cart: "+item.Quantity);
+            Console.WriteLine("result?: " + (updatedProduct.Stock - item.Quantity) );
+            updatedProduct.Stock = updatedProduct.Stock - item.Quantity;
+            await Http.PutAsJsonAsync("api/products/" + item.ProductId, updatedProduct);
+        }
+
+
+        var result = await Http.PostAsJsonAsync("api/orders/", order);
+        await Http.DeleteAsync($"api/shoppingcart/{cartId}");
+        OrderPlaced = true;
+        CartItems = 0;
+        MainShoppingCart = null;
+        NavManager.NavigateTo("checkoutsuccess");
+    }
+
+    private bool OrderValidation()
+    {
+
+        //If wanted better checks can be implemented for each Input
+        bool valid = true;
+        if (firstName == "" || firstName == null)
+            valid = false;
+
+        //if(firstName == null)
+        //    Console.WriteLine("firstname is null");
+        //else
+        //    Console.WriteLine("firstname is "+firstName);
+        //Console.WriteLine("firstnametostring|" + firstName.ToString() + "| " + valid);
+        //Console.WriteLine("firstname|" + firstName + "| " + valid);
+        if (lastName == "" || lastName == null)
+            valid = false;
+        if (country == "" || country == null)
+            valid = false;
+        if (address1 == "" || address1 == null)
+            valid = false;
+        if (city == "" || city == null)
+            valid = false;
+        if (state == "" || state == null)
+            valid = false;
+        if (zip == "" || zip == null)
+            valid = false;
+        if (phone == "" || phone == null)
+            valid = false;
+        if (email == "" || email == null)
+            valid = false;
+        //Console.WriteLine("validation before read " + valid);
+        if (readTerms == false)
+            valid = false;
+        // Console.WriteLine("validation after read " + valid);
+        if (otherAddress) //shippingaddress checkbox checked - validate shippingaddress too
+        {
+            if (shippingFirstName == "" || shippingFirstName == null)
+                valid = false;
+            if (shippingLastName == "" || shippingLastName == null)
+                valid = false;
+            if (shippingCountry == "" || shippingCountry == null)
+                valid = false;
+            if (shippingAddress1 == "" || shippingAddress1 == null)
+                valid = false;
+            if (shippingCity == "" || shippingCity == null)
+                valid = false;
+            if (shippingState == "" || shippingState == null)
+                valid = false;
+            if (shippingZip == "" || shippingZip == null)
+                valid = false;
+        }
+        //Console.WriteLine("validationcall "+valid);
+        return valid;
+    }
+
+
+
+}

@@ -1,0 +1,46 @@
+﻿.btn-shop-now-white{
+    position: absolute;
+    background-color: #fff;
+    color: #20d3c2;
+    border-style: none;
+    border-radius: 30px;
+    width: 154px;
+    height: 54px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: -205px;
+    margin-left: 405px;
+}
+
+.btn-shop-now-blue{
+    position: absolute;
+    background-color: #0e153d;
+    color: #fff;
+    border-style: none;
+    border-radius: 30px;
+    width: 154px;
+    height: 54px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: -180px;
+    margin-left: 456px;
+}
+
+.btn-shop-now-learn{
+    position: absolute;
+    background-color: #fff;
+    color: #20d3c2;
+    border-style: none;
+    border-radius: 30px;
+    width: 172px;
+    height: 54px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: -175px;
+    margin-left: 1070px;
+}
+
+.btn-shop-now-white:hover, .btn-shop-now-blue:hover, .btn-shop-now-learn:hover{
+    box-shadow: 4px 3px 8px 1px #797878;
+    transform: scale(1.05);
+}

@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+
+<div class="homepage">
+    <CascadingValue Name="productCount" Value="@GetProductCount()">
+        <div class="sticky-top">
+            <Navigation />
+        </div>
+    </CascadingValue>
+
+    <div class="main">
+        @*<div class="top-row">
+            <a href="/" target="_self" class="ml-md-auto">Home</a>
+            <a href="/productlist_test" target="_self" class="ml-md-auto">Produktlista</a>
+            <a href="/fetchcustomer" target="_self" class="ml-md-auto">Kunder</a>
+            <a href="/fetchproducts" target="_self" class="ml-md-auto">Produkter</a>
+            <button class="btn btn-info" @onclick="() => GetShoppingCart()">
+                <i class="oi oi-cart"></i>
+                Cart
+                <span class="badge badge-pill badge-light">@GetProductCount()</span>
+            </button>
+        </div>*@
+
+        <div class="content">
+            @Body
+        </div>
+    </div>
+    <div class="footer">
+        <Footer />
+    </div>
+</div>
+
+@code {
+
+    private int GetProductCount()
+    {
+        return globals.cartItems;
+    }
+
+    private void GetShoppingCart()
+    {
+        if(CartId != null && CartItems > 0)
+        {
+            NavManager.NavigateTo($"/shoppingcart/{CartId}");
+        }
+    }
+}

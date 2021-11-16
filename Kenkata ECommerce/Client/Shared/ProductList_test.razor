@@ -1,0 +1,50 @@
+﻿@page "/productlist_test"
+@using Kenkata_ECommerce.Shared.Models
+
+<head>
+    <link href="/css/app.css" rel="stylesheet" />
+</head>
+
+<h1>ProductList_test</h1>
+
+<div class="container">
+    <div class="row row-cols-4">
+        @foreach (var product in products)
+        {
+            <div class="col shadow p-3 mb-5 bg-body rounded">
+                <div class="card" style="width: 18rem;">
+                    <div class="media-img-wrapper mr-2">
+                        <a href="/products/@product.Id">
+                            <img class="media-img" src="/images/@product.images[0]" alt="@product.name" width="200" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <a href="/products/@product.Id">
+                            <h4 class="mb-0">@product.name</h4>
+                        </a>
+                        <p>@product.description</p>
+                        <h5 class="price">$@product.price</h5>
+                        <button class="btn btn-primary" @onclick="() => GotoDetail(product.Id)"><i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Köp</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<ProductModel> products;
+
+    public string shoppingCartId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = new();
+        products = await Http.GetFromJsonAsync<List<ProductModel>>("api/products");
+    }
+
+    private void GotoDetail(string Id)
+    {
+        NavManager.NavigateTo($"/products/{Id}");
+    }
+}

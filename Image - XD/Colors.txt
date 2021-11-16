@@ -1,0 +1,9 @@
+#E3E3E3 - Line/Bullet
+#64CB83 - SALE
+#64CB83 - SALE
+#AAAAAA
+#F6F6F6 - Light Grey BG
+#20D3C2 - Theme color
+#0E153D
+#EEEEEE - Product BG
+#FFFFFF

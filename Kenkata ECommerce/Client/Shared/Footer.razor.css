@@ -1,0 +1,188 @@
+﻿/*html, body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    height: 2500px;
+    background: rosybrown;
+}*/
+
+/* Footer in 3 parts as a card */
+
+/*.footer {
+    padding-bottom: 20px;
+    width: 100%;
+    color: #FFF;
+}*/
+
+/* Footer header Brand Icons */
+
+.footer-head {
+    justify-content: space-between;
+    background: #FFF;
+    padding: 3% 0;
+}
+
+.brand-icons img {
+    max-height: 45px;
+    max-width: 100%;
+}
+
+/* Card body part of footer, 4 columns */
+
+.footer-body {
+    background: #0E153D;
+    border-top: solid 5px #20D3C2;
+    padding: 2rem 0rem;
+    color: #FFF;
+}
+
+    .footer-body .information {
+        display: flex;
+        justify-content: space-between;
+    }
+
+.title {
+    color: #20D3C2;
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding-bottom: 2rem;
+}
+
+/* Column 1 */
+.brand-logo-info img {
+    height: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.brand-logo-info p {
+    letter-spacing: 1.2px;
+    font-size: 14px;
+}
+
+.brand-logo-info h6 {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.brand-logo-info hr {
+    width: 40%;
+    margin-left: 0px;
+    color: #20D3C2;
+    height: 2px;
+    opacity: .9;
+}
+
+.social-media-icons i {
+    color: #fff;
+    padding-right: 3%;
+}
+
+    .social-media-icons i:hover {
+        color: #20D3C2;
+    }
+
+/* Column 2 */
+
+.contact-info, .address, .phone, .email {
+    padding-bottom: 1rem;
+}
+
+    .contact-info h6 {
+        color: #20D3C2;
+        margin: 0;
+        padding-bottom: 0.5rem;
+    }
+
+    .contact-info p {
+        margin: 0;
+    }
+
+/* Column 3 */
+
+.useful-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.useful-links li {
+    padding: 0.5rem 0;
+}
+
+.useful-links a {
+    text-decoration: none;
+    color: #fff;
+}
+
+    .useful-links a:hover {
+        color: #20D3C2;
+    }
+
+/* Column 4 */
+
+.instagram {
+    float: right;
+}
+
+.grid3x3 {
+    width: 260px;
+    height: 260px;
+    clear: both;
+    margin: 0;
+    padding: 0;
+}
+
+    .grid3x3 div {
+        width: 33%;
+        height: 33%;
+        float: left;
+        line-height: 100px;
+        text-align: center;
+    }
+
+        .grid3x3 div img {
+            display: inline-block;
+            vertical-align: middle;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+/* Bottom part of footer */
+
+.footer-bottom {
+    background: #080C24;
+    margin: 0;
+    padding-bottom: 20px;
+    color: #fff;
+}
+
+.bottom-left {
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+}
+
+.bottom-right {
+    padding: 0 0 0 5px;
+    float: right;
+}
+
+@media (max-width:767px) {
+    .title {
+        padding-bottom: 1rem;
+    }
+
+    .footer-bottom div {
+        text-align: center;
+        font-size: 12px;
+        padding-top: 5px;
+    }
+}
+
+@media (max-width: 576px) {
+    .brand-logo-info {
+        text-align: center;
+    }
+}

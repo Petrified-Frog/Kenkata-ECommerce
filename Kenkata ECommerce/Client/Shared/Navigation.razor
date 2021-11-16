@@ -1,0 +1,139 @@
+﻿<div class="page">
+    <div class="LinkBanner">
+        <div class="container BannerStruct">
+            <div>
+                <div class="Localization ">
+
+                    <select name="languages" id="languages">
+                        <option value="eng">ENG</option>
+                        <option value="swe">SWE</option>
+                    </select>
+                    <select name="currency" id="currency">
+                        <option value="usd">USD</option>
+                        <option value="sek">SEK</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="LinkBannerRight">
+                <div class="Links">
+                    <div class="VR">
+                        <a href="/notfound">Newsletter</a>
+                    </div>
+                    <div class="VR">
+                        <a href="/notfound">Contact us</a>
+                    </div>
+                    <div class="VR">
+                        <a href="/notfound">FAQs</a>
+                    </div>
+                </div>
+                <div class="SocialMedia">
+                    <a class="MediaIcon" href="http://twitter.com"><i class="fab fa-twitter"></i></a>
+                    <a class="MediaIcon" href="http://facebook.com"><i class="fab fa-facebook-f"></i></a>
+                    <a class="MediaIcon" href="Http://instagram.com"><i class="fab fa-instagram"></i></a>
+                    <a class="MediaIcon" href="http://pinterest.com"><i class="fab fa-pinterest-p"></i></a>
+                    <a class="MediaIcon" href="http://likedin.com"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="SearchBanner">
+        <div class="container BannerStruct">
+
+            <div class="Logo">
+                <a href=""><img src="images/icons/Logo.svg" alt="Logo"></a>
+            </div>
+
+            <div class="SearchBannerRight">
+                <div class="SearchBar d-flex">
+                    <div class="SearchField">
+                        <input id="SearchInput" type="text" placeholder="Search products">
+                        <select name="SearchCombo" id="SearchCombo">
+                            <option value="">Categories</option>
+                            <option value="">Tags</option>
+                            <option value="">Size</option>
+                            <option value="">Brand</option>
+                        </select>
+                    </div>
+                    <button class="SearchButton"><img class="searchimg" src="images/icons/Search icon.svg" alt="Search"></button>
+                </div>
+
+                <div class="ButtonLinks">
+                    <div class="AccountLink">
+                        <button class="ButtonLink" @onclick='()=>NavigateTo("notfound")'><img src="images/icons/usericon@2x.png" alt="Account"> My Account</button>
+                    </div>
+                    <div>
+                        <div>
+                            <button class="ButtonLink" @onclick='()=>NavigateTo("notfound")'><img src="images/icons/hearticon@2x.png" alt="Wishlist"></button>
+                            <button class="ButtonLink" @onclick='()=>NavigateTo("notfound")'><img src="images/icons/compare@2x.png" alt="Compare"></button>
+                            <span id="CompareItems" class="IconCounter">0</span>
+                            <button class="ButtonLink" @onclick='()=>CartCheck()'><img src="images/icons/bagicon@2x.png" alt="ShoppingCart"></button>
+                            <span id="CartItems" class="IconCounter">@globals.cartItems</span>
+                            <span id="CartTotal">$@globals.cartSum</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="SiteNav">
+        <div class="container BannerStruct">
+
+            <div class="NavLinks">
+
+                <a class="NavLink" href="/" target="_self">Home</a>
+                <a class="NavLink" href="/productshop" target="_self">Shop</a>
+                <div class="dropdown">
+                    <button class="btn Dropdown DropButton" type="button" id="DropCategoriesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories<i class="fas fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenu2">
+                        <li><a class="NavLink" href="/productshop">Men</a></li>
+                        <li><a class="NavLink" href="/productshop">Women</a></li>
+                        <li><a class="NavLink" href="/productshop">Kids</a></li>
+                        <li><a class="NavLink" href="/productshop">Hats</a></li>
+                        <li><a class="NavLink" href="/productshop">Sunglasses</a></li>
+                        <li><a class="NavLink" href="/productshop">Shoes</a></li>
+                        <li><a class="NavLink" href="/productshop">Watches</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button class="btn Dropdown DropButton" type="button" id="DropPagesButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Pages<i class="fas fa-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenu2">
+                        <li><a class="NavLink" href="/notfound">Contact</a></li>
+                        <li><a class="NavLink" href="/notfound">About us</a></li>
+                        <li><a class="NavLink" href="/notfound">Team</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <button class="OfferButton" @onclick='()=>NavigateTo("notfound")'>Special Offer</button>
+            </div>
+
+        </div>
+    </div>
+
+    
+</div>
+
+@code {
+    [CascadingParameter(Name = "productCount")]
+    public int _cartitems { get; set; }
+
+    private void NavigateTo(string url)
+    {
+        NavManager.NavigateTo("/" + url);
+    }
+    private void CartCheck()
+    {
+        if (MainShoppingCart != null)
+            NavigateTo("shoppingcart/" + CartId);
+        else
+            Console.WriteLine("Shoppingcart is null");
+    }
+}

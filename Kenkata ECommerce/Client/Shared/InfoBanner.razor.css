@@ -1,0 +1,84 @@
+﻿@media (min-width: 0px) {
+
+    .btn:focus, .btn:active {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .InfoButton {
+        width: 100%;
+    }
+
+    .InfoButtonContent {
+        display: flex;
+        background-color: #fff;
+        border-radius: 2%;
+        padding: 1rem 1rem 1rem 1rem;
+        align-items: center;
+    }
+    .InfoButtonContent:hover, .InfoButtonContent:active {
+        background-color: #20D3C2;
+        color: white;
+    }
+
+    .InfoButtonText {
+        text-align: left;
+    }
+
+    .InfoButtonContent:hover {
+        color: white;
+    }
+
+    .InfoButtonHeadline {
+        color: #20D3C2;
+        line-height: 2rem;
+    }
+
+    .InfoButtonContent:hover > .InfoButtonText > .InfoButtonHeadline, .InfoButtonContent:active > .InfoButtonText > .InfoButtonHeadline {
+        color: white;
+    }
+
+    .InfoButtonIcon {
+        font-size: 1rem;
+        margin-right: 2rem;
+        filter: invert(72%) sepia(25%) saturate(1351%) hue-rotate(121deg) brightness(97%) contrast(81%);
+    }
+
+    .InfoButtonContent:hover > .InfoButtonIcon, .InfoButtonContent:active > .InfoButtonIcon {
+        filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(269deg) brightness(105%) contrast(104%);
+    }
+}
+
+@media (min-width: 576px) {
+}
+
+@media (min-width: 768px) {
+    #InfoBanner {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .InfoButton {
+        width: 50%;
+    }
+
+    .InfoButtonContent {
+        height: 8rem;
+    }
+}
+
+@media (min-width: 992px) {
+}
+
+@media (min-width: 1200px) {
+    #InfoBanner {
+        margin: 0rem 5rem 0 5rem;
+    }
+
+    .InfoButton {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1400px) {
+}

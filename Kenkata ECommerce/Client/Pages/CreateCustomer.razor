@@ -1,0 +1,55 @@
+﻿@page "/createcustomer"
+@using Kenkata_ECommerce.Shared.Models
+
+<h3>CreateCustomer</h3>
+
+<div class="container mt-3">
+    <div>
+        <input type="text" placeholder="Förnamn" @bind="@customer.FirstName">
+    </div>
+    <div>
+        <input type="text" placeholder="Efternamn" @bind="@customer.LastName">
+    </div>
+    <div>
+        <input type="text" placeholder="Company name" @bind="@customer.CompanyName">
+    </div>
+    <div>
+        <input type="text" placeholder="Land" @bind="@customer.Region">
+    </div>
+    <div>
+        <input type="text" placeholder="Adress" @bind="@customer.Address">
+    </div>
+    <div>
+        <input type="text" placeholder="Stad" @bind="@customer.City">
+    </div>
+    <div>
+        <input type="text" placeholder="Län" @bind="@customer.State">
+    </div>
+    <div>
+        <input type="number" placeholder="Postnummer" @bind="@customer.Zip">
+    </div>
+    <div>
+        <input type="text" placeholder="Telefon" @bind="@customer.Phone">
+    </div>
+    <div>
+        <input type="email" placeholder="E-postadress" @bind="@customer.Email">
+    </div>
+
+    <button class="mt-3 btn btn-success" @onclick="() => CreateNewCustomer()">Skapa</button>
+    <button class="mt-3 btn btn-dark" @onclick="() => NavigateBack()">Avbryt</button>
+</div>
+
+@code {
+    private CustomerModel customer = new();
+
+    private void NavigateBack()
+    {
+        NavManager.NavigateTo("/fetchcustomer");
+    }
+
+    private async Task CreateNewCustomer()
+    {
+        await Http.PostAsJsonAsync("api/customer", customer);
+        NavigateBack();
+    }
+}

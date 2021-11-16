@@ -1,0 +1,90 @@
+﻿@page "/shop/{id}"
+@using Kenkata_ECommerce.Shared.Models
+
+<div class="container">
+    <div class="box">
+        <div class="normal-view">
+            <div class="media-img-wrapper">
+                @if (oneProduct.images != null)
+                {
+                    <img class="media-img" src="/images/@oneProduct.images[0]" alt="@oneProduct.name" />
+                }
+            </div>
+            <div class="box-body">
+                <!-- not in use -->
+
+            </div>
+            <div class="box-footer">
+                <div>@oneProduct.name</div>
+            </div>
+        </div>
+        <div class="modal-view" @onclick="() => GotoDetail(oneProduct.Id)">
+            <div class="modal-nav-wrapper">
+                <div class="modal-nav-box">
+                    <div @onclick="() => GotoDetail(oneProduct.Id)">
+                        <img class="img-hover" src="/images/icons/heart_icon.svg" alt="Wish List button">
+                        <span class="tooltiptext">Add to Wish List</span>
+                    </div>
+                </div>
+                <div class="modal-nav-box">
+                    <div @onclick="() => GotoDetail(oneProduct.Id)">
+                        <img class="img-hover" src="/images/icons/compare_icon.svg" alt="Compare List button">
+                        <span class="tooltiptext">Compare Products</span>
+                    </div>
+                </div>
+                <div class="modal-nav-box">
+                    <div @onclick="() => GotoDetail(oneProduct.Id)">
+                        <img class="img-hover" src="/images/icons/search_icon.svg" alt="More Details button">
+                        <span class="tooltiptext">More Details</span>
+                    </div>
+                </div>
+                <div class="modal-nav-box">
+                    <div @onclick="() => GotoDetail(oneProduct.Id)">
+                        <img class="img-hover" src="/images/icons/cart_icon.svg" alt="Add to Cart button">
+                        <span class="tooltiptext">Add to Cart</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-product-info">
+                <p id="modal-product-name">@oneProduct.name</p>
+                <p id="modal-product-category">
+                    @if (oneProduct.tags != null)
+                    {
+                        @foreach (var tag in oneProduct.tags)
+                            @tag
+                    }
+                </p>
+                <p id="modal-product-price"></p>
+                <p id="modal-product-price-disc">$@oneProduct.price</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ProductModel oneProduct;
+
+    //private ShoppingCartModel CreatedShoppingCart;
+
+    //private CartItemModel cartItem = new();
+    //private string imageSrc = "";
+    //private string someText = "";
+    //private string reviewsActive = "";
+
+    [Parameter]
+    public string Id { get; set; }
+
+    //public string shoppingCartId;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        oneProduct = new();
+        oneProduct = await Http.GetFromJsonAsync<ProductModel>($"api/products/{Id}");
+    }
+
+
+    private void GotoDetail(string Id)
+    {
+        NavManager.NavigateTo($"/products/{Id}");
+    }
+}

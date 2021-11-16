@@ -1,0 +1,18 @@
+﻿@page "/checkoutsuccess"
+
+<div class="thanks">
+    <div>
+        <img class="thanksImg" src="siteImages/Home/Banner-thumb.png" alt="">
+        <h1>Thank you for shopping at Kenkata!</h1>
+        <span></span>
+        <button href="/home" class="HomeButton" @onclick="()=>Homeagain()">HOME</button>
+    </div>
+</div>
+
+@code {
+
+    private void Homeagain()
+    {
+        NavManager.NavigateTo("/");
+    }
+}
